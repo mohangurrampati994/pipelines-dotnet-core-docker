@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-helloworld
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: azure-helloworld
+  template:
+    metadata:
+      labels:
+        app: azure-helloworld
+    spec:
+      containers:
+      - name: azure-helloworld
+        image: mohancontainerregistry.azurecr.io/dotnetcorewebdocker:113
+        env:
+        - name: ALLOW_EMPTY_PASSWORD
+          value: "yes"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 5001
+          name: azure-helloworld-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-helloworld
+spec:
+  ports:
+  - port: 5001
+  selector:
+    app: azure-helloworld
