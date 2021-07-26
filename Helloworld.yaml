@@ -34,7 +34,8 @@ kind: Service
 metadata:
   name: azure-helloworld
 spec:
+  type: LoadBalancer
   ports:
-  - port: 5001
+  - port: 80
   selector:
     app: azure-helloworld
